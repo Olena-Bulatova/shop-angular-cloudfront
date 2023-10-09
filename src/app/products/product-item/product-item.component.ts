@@ -12,7 +12,6 @@ import { CartCountControlsComponent } from '../../core/cart-count-controls/cart-
 })
 export class ProductItemComponent implements OnInit {
   @Input() product!: Product;
-  @Input() index!: number;
 
   @ViewChild('cartBtn', { static: false, read: ElementRef }) cartBtn:
     | ElementRef<HTMLButtonElement>
