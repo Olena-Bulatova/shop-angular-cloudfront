@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
@@ -19,7 +20,14 @@ export class ErrorPrintInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       tap({
-        error: () => {
+        error: (error: unknown) => {
+          const httpError = error as HttpErrorResponse;
+          if (httpError?.error?.message) {
+            return this.notificationService.showError(
+              httpError?.error?.message
+            );
+          }
+
           const url = new URL(request.url);
 
           this.notificationService.showError(
